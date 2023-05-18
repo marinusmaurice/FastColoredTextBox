@@ -582,18 +582,35 @@
             Actions for shortcuts
             </summary>
         </member>
-        <member name="F:FastColoredTextBoxNS.Ruler.components">
+        <member name="F:FastColoredTextBoxNS.RulerHorizontal.components">
             <summary> 
             Required designer variable.
             </summary>
         </member>
-        <member name="M:FastColoredTextBoxNS.Ruler.Dispose(System.Boolean)">
+        <member name="M:FastColoredTextBoxNS.RulerHorizontal.Dispose(System.Boolean)">
             <summary> 
             Clean up any resources being used.
             </summary>
             <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         </member>
-        <member name="M:FastColoredTextBoxNS.Ruler.InitializeComponent">
+        <member name="M:FastColoredTextBoxNS.RulerHorizontal.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:FastColoredTextBoxNS.RulerVertical.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:FastColoredTextBoxNS.RulerVertical.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:FastColoredTextBoxNS.RulerVertical.InitializeComponent">
             <summary> 
             Required method for Designer support - do not modify 
             the contents of this method with the code editor.
@@ -1410,6 +1427,11 @@
         <member name="E:FastColoredTextBoxNS.FastColoredTextBox.ToolTipNeeded">
             <summary>
             Occurs when mouse is moving over text and tooltip is needed
+            </summary>
+        </member>
+        <member name="P:FastColoredTextBoxNS.FastColoredTextBox.DefaultMarkerSize">
+            <summary>
+            Default size of the markers
             </summary>
         </member>
         <member name="M:FastColoredTextBoxNS.FastColoredTextBox.ClearHints">

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace FastColoredTextBoxNS
 {
-    public partial class Ruler : UserControl
+    public partial class RulerHorizontal : UserControl
     {
         public EventHandler TargetChanged;
 
@@ -38,7 +38,7 @@ namespace FastColoredTextBoxNS
             }
         }
 
-        public Ruler()
+        public RulerHorizontal()
         {
             InitializeComponent();
 
