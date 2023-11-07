@@ -1,11 +1,15 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tester", "Tester\Tester.csproj", "{EBE443EE-F4C7-49E6-AC22-959CA62FAA05}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33530.505
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tester", "Tester\Tester.csproj", "{EBE443EE-F4C7-49E6-AC22-959CA62FAA05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastColoredTextBox", "FastColoredTextBox\FastColoredTextBox.csproj", "{6DD14A85-CCFC-4774-BD26-0F5772512319}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FastColoredTextBox", "FastColoredTextBox\FastColoredTextBox.csproj", "{6DD14A85-CCFC-4774-BD26-0F5772512319}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "TesterVB", "TesterVB\TesterVB.vbproj", "{3EF3A5A0-2365-41FD-97A0-254A2CFC6577}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RegularExpressions", "Regex\RegularExpressions.csproj", "{3D5B6209-9E26-495F-85DA-9D88B100AC8E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,7 +21,8 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EBE443EE-F4C7-49E6-AC22-959CA62FAA05}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{EBE443EE-F4C7-49E6-AC22-959CA62FAA05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBE443EE-F4C7-49E6-AC22-959CA62FAA05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EBE443EE-F4C7-49E6-AC22-959CA62FAA05}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{EBE443EE-F4C7-49E6-AC22-959CA62FAA05}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{EBE443EE-F4C7-49E6-AC22-959CA62FAA05}.Debug|x86.ActiveCfg = Debug|x86
@@ -47,6 +52,18 @@ Global
 		{3EF3A5A0-2365-41FD-97A0-254A2CFC6577}.Release|Mixed Platforms.Build.0 = Release|x86
 		{3EF3A5A0-2365-41FD-97A0-254A2CFC6577}.Release|x86.ActiveCfg = Release|x86
 		{3EF3A5A0-2365-41FD-97A0-254A2CFC6577}.Release|x86.Build.0 = Release|x86
+		{3D5B6209-9E26-495F-85DA-9D88B100AC8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D5B6209-9E26-495F-85DA-9D88B100AC8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D5B6209-9E26-495F-85DA-9D88B100AC8E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3D5B6209-9E26-495F-85DA-9D88B100AC8E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3D5B6209-9E26-495F-85DA-9D88B100AC8E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3D5B6209-9E26-495F-85DA-9D88B100AC8E}.Debug|x86.Build.0 = Debug|Any CPU
+		{3D5B6209-9E26-495F-85DA-9D88B100AC8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D5B6209-9E26-495F-85DA-9D88B100AC8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D5B6209-9E26-495F-85DA-9D88B100AC8E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3D5B6209-9E26-495F-85DA-9D88B100AC8E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3D5B6209-9E26-495F-85DA-9D88B100AC8E}.Release|x86.ActiveCfg = Release|Any CPU
+		{3D5B6209-9E26-495F-85DA-9D88B100AC8E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

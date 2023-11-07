@@ -139,7 +139,7 @@ namespace Tester
                 var r = Parent.Fragment.Clone();
                 while (r.Start.iChar > 0)
                 {
-                    if (r.CharBeforeStart == '}')
+                    if (r.CharBeforeStart == "}")
                     {
                         enterPlace = r.Start;
                         return CompareResult.Visible;
@@ -154,7 +154,7 @@ namespace Tester
             public override string GetTextForReplace()
             {
                 //extend range
-                Range r = Parent.Fragment;
+                FastColoredTextBoxNS.Range r = Parent.Fragment;
                 Place end = r.End;
                 r.Start = enterPlace;
                 r.End = r.End;

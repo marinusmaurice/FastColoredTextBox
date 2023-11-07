@@ -120,7 +120,7 @@ namespace Tester
             var desc = GetDesc(lastPlace);
             if (desc != null && !string.IsNullOrEmpty(desc.URL))
             {
-                var r = new Range(this, desc.Start, desc.End);
+                var r = new FastColoredTextBoxNS.Range(this, desc.Start, desc.End);
                 r.ClearStyle(linkStyle);
                 r.SetStyle(visitedLinkStyle);
                 BeginInvoke(new MethodInvoker(() => Process.Start(desc.URL)));

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Globalization;
 
 namespace FastColoredTextBoxNS
 {
@@ -365,6 +366,7 @@ namespace FastColoredTextBoxNS
             StreamReader sr = new StreamReader(fs, fileEncoding);
 
             var s = sr.ReadLine();
+
             if (s == null)
                 s = "";
 
@@ -378,8 +380,31 @@ namespace FastColoredTextBoxNS
                     return;
             }
 
-            foreach (var c in s)
-                line.Add(new Char(c));
+            //TODO: MVM might have to reload
+            if (CurrentTB.TextType == TextType.Char)
+            {
+                foreach (var item in s)
+                {
+                    line.Add(new Char(item.ToString()));
+                } 
+            }
+            else
+            if (CurrentTB.TextType == TextType.Rune)
+            {
+                foreach (Rune rune in s.EnumerateRunes())
+                {
+                    line.Add(new Char(rune.ToString()));
+                }
+            }
+            else if (CurrentTB.TextType == TextType.TextElement)
+            {
+                TextElementEnumerator tee = StringInfo.GetTextElementEnumerator(s);
+                while (tee.MoveNext())
+                {
+                    line.Add(new Char(tee.GetTextElement()));
+                }
+            }
+             
             base.lines[i] = line;
 
             if (CurrentTB.WordWrap)

@@ -23,18 +23,18 @@ namespace Tester
 
         private void button2_Click(object sender, EventArgs e)
         {
-            new MarkerToolSample().Show();
+          //  new MarkerToolSample().Show();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            new CustomStyleSample().Show();
+           // new CustomStyleSample().Show();
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
-            new VisibleRangeChangedDelayedSample().Show();
+           // new VisibleRangeChangedDelayedSample().Show();
             Cursor = Cursors.Default;
         }
 
@@ -45,12 +45,12 @@ namespace Tester
 
         private void button6_Click(object sender, EventArgs e)
         {
-            new JokeSample().Show();
+          //  new JokeSample().Show();
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
-            new SimplestCodeFoldingSample().Show();
+          //  new SimplestCodeFoldingSample().Show();
         }
 
         private void button8_Click(object sender, EventArgs e)
@@ -60,17 +60,17 @@ namespace Tester
 
         private void button9_Click(object sender, EventArgs e)
         {
-            new DynamicSyntaxHighlighting().Show();
+           // new DynamicSyntaxHighlighting().Show();
         }
 
         private void button10_Click(object sender, EventArgs e)
         {
-            new SyntaxHighlightingByXmlDescription().Show();
+           // new SyntaxHighlightingByXmlDescription().Show();
         }
 
         private void button11_Click(object sender, EventArgs e)
         {
-            new IMEsample().Show();
+         //   new IMEsample().Show();
         }
 
         private void button12_Click(object sender, EventArgs e)
@@ -80,7 +80,7 @@ namespace Tester
 
         private void button13_Click(object sender, EventArgs e)
         {
-            new GifImageDrawingSample().Show();
+          //  new GifImageDrawingSample().Show();
         }
 
         private void button14_Click(object sender, EventArgs e)
@@ -100,7 +100,7 @@ namespace Tester
 
         private void button17_Click(object sender, EventArgs e)
         {
-            new LoggerSample().Show();
+          //  new LoggerSample().Show();
         }
 
         private void button18_Click(object sender, EventArgs e)
@@ -115,12 +115,12 @@ namespace Tester
 
         private void button20_Click(object sender, EventArgs e)
         {
-            new LazyLoadingSample().Show();
+           // new LazyLoadingSample().Show();
         }
 
         private void button21_Click(object sender, EventArgs e)
         {
-            new ConsoleSample().Show();
+           // new ConsoleSample().Show();
         }
 
         private void button22_Click(object sender, EventArgs e)
@@ -130,27 +130,27 @@ namespace Tester
 
         private void button23_Click(object sender, EventArgs e)
         {
-            new BilingualHighlighterSample().Show();
+            //new BilingualHighlighterSample().Show();
         }
 
         private void button24_Click(object sender, EventArgs e)
         {
-            new HyperlinkSample().Show();
+           // new HyperlinkSample().Show();
         }
 
         private void button25_Click(object sender, EventArgs e)
         {
-            new CustomTextSourceSample().Show();
+           // new CustomTextSourceSample().Show();
         }
 
         private void button26_Click(object sender, EventArgs e)
         {
-            new HintSample().Show();
+           // new HintSample().Show();
         }
 
         private void button27_Click(object sender, EventArgs e)
         {
-            new ReadOnlyBlocksSample().Show();
+           // new ReadOnlyBlocksSample().Show();
         }
 
         private void button28_Click(object sender, EventArgs e)
@@ -160,22 +160,22 @@ namespace Tester
 
         private void button29_Click(object sender, EventArgs e)
         {
-            new MacrosSample().Show();
+          //  new MacrosSample().Show();
         }
 
         private void button30_Click(object sender, EventArgs e)
         {
-            new OpenTypeFontSample().Show();
+         //   new OpenTypeFontSample().Show();
         }
 
         private void MainForm_DoubleClick(object sender, EventArgs e)
         {
-            new Sandbox().ShowDialog();
+          //  new Sandbox().ShowDialog();
         }
 
         private void button31_Click(object sender, EventArgs e)
         {
-            new RulerSample().Show();
+        //    new RulerSample().Show();
         }
 
         private void button32_Click(object sender, EventArgs e)
@@ -190,22 +190,22 @@ namespace Tester
 
         private void button34_Click(object sender, EventArgs e)
         {
-            new DocumentMapSample().Show();
+         //   new DocumentMapSample().Show();
         }
 
         private void button35_Click(object sender, EventArgs e)
         {
-            new DiffMergeSample().Show();
+           // new DiffMergeSample().Show();
         }
 
         private void button36_Click(object sender, EventArgs e)
         {
-            new CustomScrollBarsSample().Show();
+          //  new CustomScrollBarsSample().Show();
         }
 
         private void button37_Click(object sender, EventArgs e)
         {
-            new CustomWordWrapSample().Show();
+           // new CustomWordWrapSample().Show();
         }
 
         private void button38_Click(object sender, EventArgs e)
@@ -215,7 +215,7 @@ namespace Tester
 
         private void button39_Click(object sender, EventArgs e)
         {
-            new CustomTextSourceSample2().Show();
+         //   new CustomTextSourceSample2().Show();
         }
     }
 }

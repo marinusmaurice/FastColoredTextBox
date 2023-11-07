@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using FarsiLibrary.Win;
 using FastColoredTextBoxNS;
 using System.IO;
-using System.Text.RegularExpressions;
+using System.Text.RegularExpressions1;
 using System.Threading;
 using System.Drawing.Drawing2D;
 
@@ -55,6 +55,7 @@ namespace Tester
             try
             {
                 var tb = new FastColoredTextBox();
+                tb.TextType = TextType.TextElement;
                 tb.Font = new Font("Consolas", 9.75f);
                 tb.ContextMenuStrip = cmMain;
                 tb.Dock = DockStyle.Fill;
@@ -107,7 +108,7 @@ namespace Tester
                     //current char (before caret)
                     var c = CurrentTB[CurrentTB.Selection.Start.iLine][CurrentTB.Selection.Start.iChar - 1];
                     //green Style
-                    var greenStyleIndex = Range.ToStyleIndex(iGreenStyle);
+                    var greenStyleIndex = FastColoredTextBoxNS.Range.ToStyleIndex(iGreenStyle);
                     //if char contains green style then block popup menu
                     if ((c.style & greenStyleIndex) != 0)
                         e.Cancel = true;
@@ -140,7 +141,7 @@ namespace Tester
         {
             var tb = sender as FastColoredTextBox;
             var place = tb.PointToPlace(e.Location);
-            var r = new Range(tb, place, place);
+            var r = new FastColoredTextBoxNS.Range(tb, place, place);
 
             string text = r.GetFragment("[a-zA-Z]").Text;
             lbWordUnderMouse.Text = text;
@@ -191,8 +192,8 @@ namespace Tester
             if (text.Length == 0)
                 return;
             //highlight same words
-            Range[] ranges = tb.VisibleRange.GetRanges("\\b" + text + "\\b").ToArray();
-
+            //TODO: MVM  - errors in regular expressions
+            FastColoredTextBoxNS.Range[] ranges = tb.VisibleRange.GetRanges("\\b" + text + "\\b").ToArray();
             if (ranges.Length > 1)
                 foreach (var r in ranges)
                     r.SetStyle(sameWordsStyle);
@@ -211,7 +212,7 @@ namespace Tester
             HighlightInvisibleChars(e.ChangedRange);
         }
 
-        private void HighlightInvisibleChars(Range range)
+        private void HighlightInvisibleChars(FastColoredTextBoxNS.Range range)
         {
             range.ClearStyle(invisibleCharsStyle);
             if (btInvisibleChars.Checked)
@@ -489,7 +490,7 @@ namespace Tester
         {
             if (e.KeyChar == '\r' && CurrentTB != null)
             {
-                Range r = tbFindChanged?CurrentTB.Range.Clone():CurrentTB.Selection.Clone();
+                FastColoredTextBoxNS.Range r = tbFindChanged?CurrentTB.Range.Clone():CurrentTB.Selection.Clone();
                 tbFindChanged = false;
                 r.End = new Place(CurrentTB[CurrentTB.LinesCount - 1].Count, CurrentTB.LinesCount - 1);
                 var pattern = Regex.Escape(tbFind.Text);
@@ -742,7 +743,7 @@ namespace Tester
                 var r = Parent.Fragment.Clone();
                 while (r.Start.iChar > 0)
                 {
-                    if (r.CharBeforeStart == '}')
+                    if (r.CharBeforeStart == "}")
                     {
                         enterPlace = r.Start;
                         return CompareResult.Visible;
@@ -757,7 +758,7 @@ namespace Tester
             public override string GetTextForReplace()
             {
                 //extend range
-                Range r = Parent.Fragment;
+                FastColoredTextBoxNS.Range r = Parent.Fragment;
                 Place end = r.End;
                 r.Start = enterPlace;
                 r.End = r.End;
@@ -912,7 +913,7 @@ namespace Tester
             this.pen = pen;
         }
 
-        public override void Draw(Graphics gr, Point position, Range range)
+        public override void Draw(Graphics gr, Point position, FastColoredTextBoxNS.Range range)
         {
             var tb = range.tb;
             using(Brush brush = new SolidBrush(pen.Color))
@@ -920,7 +921,7 @@ namespace Tester
             {
                 switch (tb[place].c)
                 {
-                    case ' ':
+                    case " ":
                         var point = tb.PlaceToPoint(place);
                         point.Offset(tb.CharWidth / 2, tb.CharHeight / 2);
                         gr.DrawLine(pen, point.X, point.Y, point.X + 1, point.Y);

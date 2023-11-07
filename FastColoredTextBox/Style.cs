@@ -2,6 +2,7 @@
 using System;
 using System.Drawing.Drawing2D;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace FastColoredTextBoxNS
 {
@@ -154,7 +155,8 @@ namespace FastColoredTextBoxNS
                     for (int i = range.Start.iChar; i < range.End.iChar; i++)
                     {
                         //draw char
-                        gr.DrawString(line[i].c.ToString(), f, ForeBrush, x, y, stringFormat);
+                        //TODO MVM: gr.DrawString(line[i].c.ToString(), f, ForeBrush, x, y, stringFormat);
+                        TextRenderer.DrawText(gr, line[i].c.ToString(),f, new Point((int)x, (int)y), range.tb.ForeColor);
                         x += dx;
                     }
                 }
@@ -232,7 +234,7 @@ namespace FastColoredTextBoxNS
                 
                 //find first non space symbol
                 for (int i = range.Start.iChar; i < range.End.iChar; i++)
-                    if (range.tb[range.Start.iLine][i].c != ' ')
+                    if (range.tb[range.Start.iLine][i].c != " ")
                         break;
                     else
                         firstNonSpaceSymbolX += range.tb.CharWidth;

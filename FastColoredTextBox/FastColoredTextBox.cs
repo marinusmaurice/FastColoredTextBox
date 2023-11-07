@@ -125,6 +125,7 @@ namespace FastColoredTextBoxNS
         private int reservedCountOfLineNumberChars = 1;
         private int zoom = 100;
         private Size localAutoScrollMinSize;
+        private TextType textType = TextType.TextElement;
  
         /// <summary>
         /// Constructor
@@ -165,10 +166,10 @@ namespace FastColoredTextBoxNS
             DelayedEventsInterval = 100;
             DelayedTextChangedInterval = 100;
             AllowSeveralTextStyleDrawing = false;
-            LeftBracket = '\x0';
-            RightBracket = '\x0';
-            LeftBracket2 = '\x0';
-            RightBracket2 = '\x0';
+            LeftBracket = "\x0";
+            RightBracket = "\x0";
+            LeftBracket2 = "\x0";
+            RightBracket2 = "\x0";
             SyntaxHighlighter = new SyntaxHighlighter(this);
             language = Language.Custom;
             PreferredLineWidth = 0;
@@ -581,6 +582,21 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
+        /// Renders either chars, Runes, or TextElements.
+        /// </summary>
+        [DefaultValue(TextType.TextElement)]
+        [Description("Renders either chars, Runes, or TextElements")]
+        public TextType TextType
+        {
+            get { return textType; }
+            set
+            {
+                textType = value;
+                Invalidate();
+            }
+        }
+
+        /// <summary>
         /// Rectangle where located text
         /// </summary>
         [Browsable(false)]
@@ -876,7 +892,7 @@ namespace FastColoredTextBoxNS
         /// </summary>
         [DefaultValue('\x0')]
         [Description("Opening bracket for brackets highlighting. Set to '\\x0' for disable brackets highlighting.")]
-        public char LeftBracket { get; set; }
+        public string LeftBracket { get; set; }
 
         /// <summary>
         /// Closing bracket for brackets highlighting.
@@ -884,7 +900,7 @@ namespace FastColoredTextBoxNS
         /// </summary>
         [DefaultValue('\x0')]
         [Description("Closing bracket for brackets highlighting. Set to '\\x0' for disable brackets highlighting.")]
-        public char RightBracket { get; set; }
+        public string RightBracket { get; set; }
 
         /// <summary>
         /// Alternative opening bracket for brackets highlighting.
@@ -892,7 +908,7 @@ namespace FastColoredTextBoxNS
         /// </summary>
         [DefaultValue('\x0')]
         [Description("Alternative opening bracket for brackets highlighting. Set to '\\x0' for disable brackets highlighting.")]
-        public char LeftBracket2 { get; set; }
+        public string LeftBracket2 { get; set; }
 
         /// <summary>
         /// Alternative closing bracket for brackets highlighting.
@@ -900,7 +916,7 @@ namespace FastColoredTextBoxNS
         /// </summary>
         [DefaultValue('\x0')]
         [Description("Alternative closing bracket for brackets highlighting. Set to '\\x0' for disable brackets highlighting.")]
-        public char RightBracket2 { get; set; }
+        public string RightBracket2 { get; set; }
 
         /// <summary>
         /// Comment line prefix.
@@ -1529,12 +1545,12 @@ namespace FastColoredTextBoxNS
         {
             BaseFont = newFont;
             //check monospace font
-            SizeF sizeM = GetCharSize(BaseFont, 'M');
-            SizeF sizeDot = GetCharSize(BaseFont, '.');
+            SizeF sizeM = GetCharSize(BaseFont, "M");
+            SizeF sizeDot = GetCharSize(BaseFont, ".");
             if (sizeM != sizeDot)
                 BaseFont = new Font("Courier New", BaseFont.SizeInPoints, FontStyle.Regular, GraphicsUnit.Point);
             //clac size
-            SizeF size = GetCharSize(BaseFont, 'M');
+            SizeF size = GetCharSize(BaseFont, "M");
             CharWidth = (int) Math.Round(size.Width*1f /*0.85*/) - 1 /*0*/;
             CharHeight = lineInterval + (int) Math.Round(size.Height*1f /*0.9*/) - 1 /*0*/;
             //
@@ -2318,9 +2334,9 @@ namespace FastColoredTextBoxNS
             RecalcScrollByOneLine(Selection.Start.iLine);
             //highlight brackets
             ClearBracketsPositions();
-            if (LeftBracket != '\x0' && RightBracket != '\x0')
+            if (LeftBracket != "\x0" && RightBracket != "\x0")
                 HighlightBrackets(LeftBracket, RightBracket, ref leftBracketPosition, ref rightBracketPosition);
-            if (LeftBracket2 != '\x0' && RightBracket2 != '\x0')
+            if (LeftBracket2 != "\x0" && RightBracket2 != "\x0")
                 HighlightBrackets(LeftBracket2, RightBracket2, ref leftBracketPosition2, ref rightBracketPosition2);
             //remember last visit time
             if (Selection.IsEmpty && Selection.Start.iLine < LinesCount)
@@ -2915,7 +2931,7 @@ namespace FastColoredTextBoxNS
             return i;
         }
 
-        public static SizeF GetCharSize(Font font, char c)
+        public static SizeF GetCharSize(Font font, string c)
         {
             Size sz2 = TextRenderer.MeasureText("<" + c.ToString() + ">", font);
             Size sz3 = TextRenderer.MeasureText("<>", font);
@@ -3268,7 +3284,7 @@ namespace FastColoredTextBoxNS
 
             for (int i = 0; i < line.Count - 1; i++)
             {
-                char c = line[i].c;
+                string c = line[i].c;
                 if (charWrap)
                 {
                     //char wrapping
@@ -3277,13 +3293,14 @@ namespace FastColoredTextBoxNS
                 else
                 {
                     //word wrapping
-                    if (allowIME && IsCJKLetter(c))//in CJK languages cutoff can be in any letter
+                    //TODO: c[0]
+                    if (allowIME && IsCJKLetter(c[0]))//in CJK languages cutoff can be in any letter
                     {
                         cutOff = i;
                     }
                     else
-                    if (!char.IsLetterOrDigit(c) && c != '_' && c != '\'' && c != '\xa0' 
-                        && ((c != '.' && c!= ',') || !char.IsDigit(line[i + 1].c)))//dot before digit
+                    if (!c.IsLetterOrDigit() && c != "_" && c != "\"" && c != "\xa0" 
+                        && ((c != "." && c!= ",") || !line[i + 1].c.IsDigit()))//dot before digit
                         cutOff = Math.Min(i + 1, line.Count - 1);
                 }
 
@@ -4300,7 +4317,7 @@ namespace FastColoredTextBoxNS
             if (findCharMode)
             {
                 findCharMode = false;
-                FindChar(c);
+                FindChar(c.ToString());
                 return true;
             }
             var args = new KeyPressEventArgs(c);
@@ -4417,7 +4434,7 @@ namespace FastColoredTextBoxNS
             //insert char
             if (!Selection.ReadOnly)
             {
-                if (!DoAutocompleteBrackets(c))
+                if (!DoAutocompleteBrackets(c.ToString()))
                     InsertChar(c);
             }
 
@@ -4608,24 +4625,25 @@ namespace FastColoredTextBoxNS
 
         #endregion
 
-        private bool DoAutocompleteBrackets(char c)
+        private bool DoAutocompleteBrackets(string c)
         {
             if (AutoCompleteBrackets)
             {
-                if (!Selection.ColumnSelectionMode)
-                    for (int i = 1; i < autoCompleteBracketsList.Length; i += 2)
-                        if (c == autoCompleteBracketsList[i] && c == Selection.CharAfterStart)
-                        {
-                            Selection.GoRight();
-                            return true;
-                        }
+                //TODO:
+                //if (!Selection.ColumnSelectionMode)
+                //    for (int i = 1; i < autoCompleteBracketsList.Length; i += 2)
+                //        if (c == autoCompleteBracketsList[i] && c == Selection.CharAfterStart)
+                //        {
+                //            Selection.GoRight();
+                //            return true;
+                //        }
 
-                for (int i = 0; i < autoCompleteBracketsList.Length; i += 2)
-                    if (c == autoCompleteBracketsList[i])
-                    {
-                        InsertBrackets(autoCompleteBracketsList[i], autoCompleteBracketsList[i + 1]);
-                        return true;
-                    }
+                //for (int i = 0; i < autoCompleteBracketsList.Length; i += 2)
+                //    if (c == autoCompleteBracketsList[i])
+                //    {
+                //        InsertBrackets(autoCompleteBracketsList[i], autoCompleteBracketsList[i + 1]);
+                //        return true;
+                //    }
             }
             return false;
         }
@@ -4663,10 +4681,10 @@ namespace FastColoredTextBoxNS
         /// Finds given char after current caret position, moves the caret to found pos.
         /// </summary>
         /// <param name="c"></param>
-        protected virtual void FindChar(char c)
+        protected virtual void FindChar(string c)
         {
-            if (c == '\r')
-                c = '\n';
+            if (c == "\r")
+                c = "\n";
 
             var r = Selection.Clone();
             while (r.GoRight())
@@ -4701,7 +4719,7 @@ namespace FastColoredTextBoxNS
             if (!Selection.IsEmpty)
                 return;
             Place end = Selection.Start;
-            while (Selection.CharAfterStart == ' ')
+            while (Selection.CharAfterStart == " ")
                 Selection.GoRight(true);
             ClearSelected();
         }
@@ -5382,7 +5400,7 @@ namespace FastColoredTextBoxNS
                         {
                             int d = 0;
                             int spaceCount = line.StartSpacesCount;
-                            if (lines[iLine.Value].Count <= spaceCount || lines[iLine.Value][spaceCount].c == ' ')
+                            if (lines[iLine.Value].Count <= spaceCount || lines[iLine.Value][spaceCount].c == " ")
                                 d = CharHeight;
                             y2 = LineInfos[iLine.Value].startY - VerticalScroll.Value + d;
                         }
@@ -5874,8 +5892,8 @@ namespace FastColoredTextBoxNS
 
             for (int i = p.iChar; i < lines[p.iLine].Count; i++)
             {
-                char c = lines[p.iLine][i].c;
-                if (char.IsLetterOrDigit(c) || c == '_')
+                string c = lines[p.iLine][i].c;
+                if (c.IsLetterOrDigit() || c == "_")
                     toX = i + 1;
                 else
                     break;
@@ -5883,8 +5901,8 @@ namespace FastColoredTextBoxNS
 
             for (int i = p.iChar - 1; i >= 0; i--)
             {
-                char c = lines[p.iLine][i].c;
-                if (char.IsLetterOrDigit(c) || c == '_')
+                string c = lines[p.iLine][i].c;
+                if (c.IsLetterOrDigit() || c == "_")
                     fromX = i;
                 else
                     break;
@@ -7091,7 +7109,7 @@ namespace FastColoredTextBoxNS
         /// <summary>
         /// Highlights brackets around caret
         /// </summary>
-        private void HighlightBrackets(char LeftBracket, char RightBracket, ref Range leftBracketPosition, ref Range rightBracketPosition)
+        private void HighlightBrackets(string LeftBracket, string RightBracket, ref Range leftBracketPosition, ref Range rightBracketPosition)
         {
             switch(BracketsHighlightStrategy)
             {
@@ -7100,7 +7118,7 @@ namespace FastColoredTextBoxNS
             }
         }
 
-        private void HighlightBrackets1(char LeftBracket, char RightBracket, ref Range leftBracketPosition, ref Range rightBracketPosition)
+        private void HighlightBrackets1(string LeftBracket, string RightBracket, ref Range leftBracketPosition, ref Range rightBracketPosition)
         {
             if (!Selection.IsEmpty)
                 return;
@@ -7125,7 +7143,7 @@ namespace FastColoredTextBoxNS
         /// <summary>
         /// Returns range between brackets (or null if not found)
         /// </summary>
-        public Range GetBracketsRange(Place placeInsideBrackets, char leftBracket, char rightBracket, bool includeBrackets)
+        public Range GetBracketsRange(Place placeInsideBrackets, string leftBracket, string rightBracket, bool includeBrackets)
         {
             var startRange = new Range(this, placeInsideBrackets, placeInsideBrackets);
             var range = startRange.Clone();
@@ -7174,7 +7192,7 @@ namespace FastColoredTextBoxNS
                 return null;
         }
 
-        private void HighlightBrackets2(char LeftBracket, char RightBracket, ref Range leftBracketPosition, ref Range rightBracketPosition)
+        private void HighlightBrackets2(string LeftBracket, string RightBracket, ref Range leftBracketPosition, ref Range rightBracketPosition)
         {
             if (!Selection.IsEmpty)
                 return;
@@ -8546,6 +8564,13 @@ window.status = ""#print"";
         {
             Action = action;
         }
+    }
+
+    public enum TextType
+    {
+        Char,
+        Rune,
+        TextElement
     }
 
     public enum TextAreaBorderType

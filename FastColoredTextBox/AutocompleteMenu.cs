@@ -462,8 +462,9 @@ namespace FastColoredTextBoxNS
                     {
                         if (tb.Selection.Start.iLine == Menu.Fragment.End.iLine && tb.Selection.Start.iChar == Menu.Fragment.End.iChar + 1)
                         {
+                        
                             //user press key at end of fragment
-                            char c = tb.Selection.CharBeforeStart;
+                            string c = tb.Selection.CharBeforeStart;
                             if (!Regex.IsMatch(c.ToString(), Menu.SearchPattern))//check char
                                 needClose = true;
                         }

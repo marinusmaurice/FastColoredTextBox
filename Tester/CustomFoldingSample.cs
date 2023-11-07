@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using FastColoredTextBoxNS;
-using System.Text.RegularExpressions;
+using System.Text.RegularExpressions1;
 
 namespace Tester
 {

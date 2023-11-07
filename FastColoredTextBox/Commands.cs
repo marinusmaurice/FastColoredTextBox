@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
+using System.Text;
 
 namespace FastColoredTextBoxNS
 {
@@ -10,7 +13,7 @@ namespace FastColoredTextBoxNS
     public class InsertCharCommand : UndoableCommand
     {
         public char c;
-        char deletedChar = '\x0';
+        string deletedChar = "\x0";
 
         /// <summary>
         /// Constructor
@@ -34,11 +37,11 @@ namespace FastColoredTextBoxNS
                 case '\r': break;
                 case '\b':
                     ts.CurrentTB.Selection.Start = lastSel.Start;
-                    char cc = '\x0';
-                    if (deletedChar != '\x0')
+                    string cc = "\x0";
+                    if (deletedChar != "\x0")
                     {
                         ts.CurrentTB.ExpandBlock(ts.CurrentTB.Selection.Start.iLine);
-                        InsertChar(deletedChar, ref cc, ts);
+                        InsertChar(deletedChar.ToString(), ref cc, ts);
                     }
                     break;
                 case '\t':
@@ -76,27 +79,27 @@ namespace FastColoredTextBoxNS
 
             if (ts.Count == 0)
                 InsertLine(ts);
-            InsertChar(c, ref deletedChar, ts);
+            InsertChar(c.ToString(), ref deletedChar, ts);
 
             ts.NeedRecalc(new TextSource.TextChangedEventArgs(ts.CurrentTB.Selection.Start.iLine, ts.CurrentTB.Selection.Start.iLine));
             base.Execute();
         }
 
-        internal static void InsertChar(char c, ref char deletedChar, TextSource ts)
+        internal static void InsertChar(string c, ref string deletedChar, TextSource ts)
         {
             var tb = ts.CurrentTB;
 
             switch (c)
             {
-                case '\n':
+                case "\n":
                     if (!ts.CurrentTB.AllowInsertRemoveLines)
                         throw new ArgumentOutOfRangeException("Cant insert this char in ColumnRange mode");
                     if (ts.Count == 0)
                         InsertLine(ts);
                     InsertLine(ts);
                     break;
-                case '\r': break;
-                case '\b'://backspace
+                case "\r": break;
+                case "\b"://backspace
                     if (tb.Selection.Start.iChar == 0 && tb.Selection.Start.iLine == 0)
                         return;
                     if (tb.Selection.Start.iChar == 0)
@@ -105,7 +108,7 @@ namespace FastColoredTextBoxNS
                             throw new ArgumentOutOfRangeException("Cant insert this char in ColumnRange mode");
                         if (tb.LineInfos[tb.Selection.Start.iLine - 1].VisibleState != VisibleState.Visible)
                             tb.ExpandBlock(tb.Selection.Start.iLine - 1);
-                        deletedChar = '\n';
+                        deletedChar = "\n";
                         MergeLines(tb.Selection.Start.iLine - 1, ts);
                     }
                     else
@@ -115,13 +118,13 @@ namespace FastColoredTextBoxNS
                         tb.Selection.Start = new Place(tb.Selection.Start.iChar - 1, tb.Selection.Start.iLine);
                     }
                     break;
-                case '\t':
+                case "\t":
                     int spaceCountNextTabStop = tb.TabLength - (tb.Selection.Start.iChar % tb.TabLength);
                     if (spaceCountNextTabStop == 0)
                         spaceCountNextTabStop = tb.TabLength;
 
                     for (int i = 0; i < spaceCountNextTabStop; i++)
-                        ts[tb.Selection.Start.iLine].Insert(tb.Selection.Start.iChar, new Char(' '));
+                        ts[tb.Selection.Start.iLine].Insert(tb.Selection.Start.iChar, new Char(" "));
 
                     tb.Selection.Start = new Place(tb.Selection.Start.iChar + spaceCountNextTabStop, tb.Selection.Start.iLine);
                     break;
@@ -134,6 +137,7 @@ namespace FastColoredTextBoxNS
 
         internal static void InsertLine(TextSource ts)
         {
+            
             var tb = ts.CurrentTB;
 
             if (!tb.Multiline && tb.LinesCount > 0)
@@ -237,7 +241,7 @@ namespace FastColoredTextBoxNS
             try
             {
                 tb.Selection.BeginUpdate();
-                char cc = '\x0';
+                string cc = "\x0";
                 
                 if (ts.Count == 0)
                 {
@@ -245,15 +249,56 @@ namespace FastColoredTextBoxNS
                     tb.Selection.Start = Place.Empty;
                 }
                 tb.ExpandBlock(tb.Selection.Start.iLine);
-                var len = insertedText.Length;
-                for (int i = 0; i < len; i++)
+
+
+                //TODO: MVM add arrangement for rune/textelement switch
+
+                if (tb.TextType == TextType.Char)
                 {
-                    var c = insertedText[i];
-                    if(c == '\r' && (i >= len - 1 || insertedText[i + 1] != '\n'))
-                        InsertCharCommand.InsertChar('\n', ref cc, ts);
-                    else
-                        InsertCharCommand.InsertChar(c, ref cc, ts);
+                    var len = insertedText.Length;
+                    for (int i = 0; i < len; i++)
+                    {
+                        var c = insertedText[i];
+                        if (c == '\r' && (i >= len - 1 || insertedText[i + 1] != '\n'))
+                            InsertCharCommand.InsertChar("\n", ref cc, ts);
+                        else
+                            InsertCharCommand.InsertChar(c.ToString(), ref cc, ts);
+                    }
                 }
+                else if (tb.TextType == TextType.Rune)
+                {
+                    foreach (Rune rune in insertedText.EnumerateRunes())
+                    {
+                        string c = rune.ToString();
+                        if (c == Environment.NewLine)
+                            InsertCharCommand.InsertChar("\n", ref cc, ts);
+                        else
+                            InsertCharCommand.InsertChar(c.ToString(), ref cc, ts);
+                        Debug.WriteLine(c.ToString());
+                    }
+                }
+                else if (tb.TextType == TextType.TextElement)
+                {
+                    TextElementEnumerator tee = StringInfo.GetTextElementEnumerator(insertedText);
+                    while (tee.MoveNext())
+                    {
+                        string c = tee.GetTextElement();
+                        if (c == Environment.NewLine)
+                            InsertCharCommand.InsertChar("\n", ref cc, ts);
+                        else
+                            InsertCharCommand.InsertChar(c.ToString(), ref cc, ts);
+                        Debug.WriteLine(c.ToString());
+                    }
+                }
+               
+
+
+               
+
+
+
+                //TODO: 
+               
                 ts.NeedRecalc(new TextSource.TextChangedEventArgs(0, 1));
             }
             finally {

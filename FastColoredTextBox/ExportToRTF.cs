@@ -75,18 +75,18 @@ namespace FastColoredTextBoxNS
                 }
                 switch (c.c)
                 {
-                    case '\\':
+                    case "\\":
                         tempSB.Append(@"\\");
                         break;
-                    case '{':
+                    case "{":
                         tempSB.Append(@"\{");
                         break;
-                    case '}':
+                    case "}":
                         tempSB.Append(@"\}");
                         break;
                     default:
                         var ch = c.c;
-                        var code = (int)ch;
+                        var code = (int)ch[0];//TODO:
                         if(code < 128)
                             tempSB.Append(c.c);
                         else

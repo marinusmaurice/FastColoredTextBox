@@ -98,19 +98,19 @@ namespace FastColoredTextBoxNS
                 }
                 switch (c.c)
                 {
-                    case ' ':
+                    case " ":
                         if ((hasNonSpace || !UseForwardNbsp) && !UseNbsp)
                             goto default;
 
                         tempSB.Append("&nbsp;");
                         break;
-                    case '<':
+                    case "<":
                         tempSB.Append("&lt;");
                         break;
-                    case '>':
+                    case ">":
                         tempSB.Append("&gt;");
                         break;
-                    case '&':
+                    case "&":
                         tempSB.Append("&amp;");
                         break;
                     default:

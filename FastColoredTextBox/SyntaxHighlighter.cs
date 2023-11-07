@@ -409,25 +409,25 @@ namespace FastColoredTextBoxNS
                 if (brackets.Attributes["left"] == null || brackets.Attributes["right"] == null ||
                     brackets.Attributes["left"].Value == "" || brackets.Attributes["right"].Value == "")
                 {
-                    desc.leftBracket = '\x0';
-                    desc.rightBracket = '\x0';
+                    desc.leftBracket = "\x0";
+                    desc.rightBracket = "\x0";
                 }
                 else
-                {
-                    desc.leftBracket = brackets.Attributes["left"].Value[0];
-                    desc.rightBracket = brackets.Attributes["right"].Value[0];
+                {//TODO:
+                    desc.leftBracket = brackets.Attributes["left"].Value[0].ToString();
+                    desc.rightBracket = brackets.Attributes["right"].Value[0].ToString();
                 }
 
                 if (brackets.Attributes["left2"] == null || brackets.Attributes["right2"] == null ||
                     brackets.Attributes["left2"].Value == "" || brackets.Attributes["right2"].Value == "")
                 {
-                    desc.leftBracket2 = '\x0';
-                    desc.rightBracket2 = '\x0';
+                    desc.leftBracket2 = "\x0";
+                    desc.rightBracket2 = "\x0";
                 }
                 else
-                {
-                    desc.leftBracket2 = brackets.Attributes["left2"].Value[0];
-                    desc.rightBracket2 = brackets.Attributes["right2"].Value[0];
+                {//TODO:
+                    desc.leftBracket2 = brackets.Attributes["left2"].Value[0].ToString();
+                    desc.rightBracket2 = brackets.Attributes["right2"].Value[0].ToString();
                 }
 
                 if (brackets.Attributes["strategy"] == null || brackets.Attributes["strategy"].Value == "")
@@ -533,7 +533,7 @@ namespace FastColoredTextBoxNS
             for (int i = 0; i < resilientStyles.Count; i++)
                 range.tb.Styles[l + i] = resilientStyles[i];
             //brackets
-            char[] oldBrackets = RememberBrackets(range.tb);
+            string[] oldBrackets = RememberBrackets(range.tb);
             range.tb.LeftBracket = desc.leftBracket;
             range.tb.RightBracket = desc.rightBracket;
             range.tb.LeftBracket2 = desc.leftBracket2;
@@ -553,7 +553,7 @@ namespace FastColoredTextBoxNS
             RestoreBrackets(range.tb, oldBrackets);
         }
 
-        protected void RestoreBrackets(FastColoredTextBox tb, char[] oldBrackets)
+        protected void RestoreBrackets(FastColoredTextBox tb, string[] oldBrackets)
         {
             tb.LeftBracket = oldBrackets[0];
             tb.RightBracket = oldBrackets[1];
@@ -561,7 +561,7 @@ namespace FastColoredTextBoxNS
             tb.RightBracket2 = oldBrackets[3];
         }
 
-        protected char[] RememberBrackets(FastColoredTextBox tb)
+        protected string[] RememberBrackets(FastColoredTextBox tb)
         {
             return new[] { tb.LeftBracket, tb.RightBracket, tb.LeftBracket2, tb.RightBracket2 };
         }
@@ -703,10 +703,10 @@ namespace FastColoredTextBoxNS
         public virtual void CSharpSyntaxHighlight(Range range)
         {
             range.tb.CommentPrefix = "//";
-            range.tb.LeftBracket = '(';
-            range.tb.RightBracket = ')';
-            range.tb.LeftBracket2 = '{';
-            range.tb.RightBracket2 = '}';
+            range.tb.LeftBracket = "(";
+            range.tb.RightBracket = ")";
+            range.tb.LeftBracket2 = "{";
+            range.tb.RightBracket2 = "}";
             range.tb.BracketsHighlightStrategy = BracketsHighlightStrategy.Strategy2;
 
             range.tb.AutoIndentCharsPatterns
@@ -786,10 +786,10 @@ namespace FastColoredTextBoxNS
         public virtual void VBSyntaxHighlight(Range range)
         {
             range.tb.CommentPrefix = "'";
-            range.tb.LeftBracket = '(';
-            range.tb.RightBracket = ')';
-            range.tb.LeftBracket2 = '\x0';
-            range.tb.RightBracket2 = '\x0';
+            range.tb.LeftBracket = "(";
+            range.tb.RightBracket = ")";
+            range.tb.LeftBracket2 = "\x0";
+            range.tb.RightBracket2 = "\x0";
 
             range.tb.AutoIndentCharsPatterns
                 = @"
@@ -857,10 +857,10 @@ namespace FastColoredTextBoxNS
         public virtual void HTMLSyntaxHighlight(Range range)
         {
             range.tb.CommentPrefix = null;
-            range.tb.LeftBracket = '<';
-            range.tb.RightBracket = '>';
-            range.tb.LeftBracket2 = '(';
-            range.tb.RightBracket2 = ')';
+            range.tb.LeftBracket = "<";
+            range.tb.RightBracket = ">";
+            range.tb.LeftBracket2 = "(";
+            range.tb.RightBracket2 = ")";
             range.tb.AutoIndentCharsPatterns = @"";
             //clear style of changed range
             range.ClearStyle(CommentStyle, TagBracketStyle, TagNameStyle, AttributeStyle, AttributeValueStyle,
@@ -927,10 +927,10 @@ namespace FastColoredTextBoxNS
         public virtual void XMLSyntaxHighlight(Range range)
         {
             range.tb.CommentPrefix = null;
-            range.tb.LeftBracket = '<';
-            range.tb.RightBracket = '>';
-            range.tb.LeftBracket2 = '(';
-            range.tb.RightBracket2 = ')';
+            range.tb.LeftBracket = "<";
+            range.tb.RightBracket = ">";
+            range.tb.LeftBracket2 = "(";
+            range.tb.RightBracket2 = ")";
             range.tb.AutoIndentCharsPatterns = @"";
             //clear style of changed range
             range.ClearStyle(CommentStyle, XmlTagBracketStyle, XmlTagNameStyle, XmlAttributeStyle, XmlAttributeValueStyle,
@@ -1051,10 +1051,10 @@ namespace FastColoredTextBoxNS
         public virtual void SQLSyntaxHighlight(Range range)
         {
             range.tb.CommentPrefix = "--";
-            range.tb.LeftBracket = '(';
-            range.tb.RightBracket = ')';
-            range.tb.LeftBracket2 = '\x0';
-            range.tb.RightBracket2 = '\x0';
+            range.tb.LeftBracket = "(";
+            range.tb.RightBracket = ")";
+            range.tb.LeftBracket2 = "\x0";
+            range.tb.RightBracket2 = "\x0";
 
             range.tb.AutoIndentCharsPatterns = @"";
             //clear style of changed range
@@ -1119,10 +1119,10 @@ namespace FastColoredTextBoxNS
         public virtual void PHPSyntaxHighlight(Range range)
         {
             range.tb.CommentPrefix = "//";
-            range.tb.LeftBracket = '(';
-            range.tb.RightBracket = ')';
-            range.tb.LeftBracket2 = '{';
-            range.tb.RightBracket2 = '}';
+            range.tb.LeftBracket = "(";
+            range.tb.RightBracket = ")";
+            range.tb.LeftBracket2 = "{";
+            range.tb.RightBracket2 = "}";
             range.tb.BracketsHighlightStrategy = BracketsHighlightStrategy.Strategy2;
             //clear style of changed range
             range.ClearStyle(StringStyle, CommentStyle, NumberStyle, VariableStyle, KeywordStyle, KeywordStyle2,
@@ -1180,10 +1180,10 @@ namespace FastColoredTextBoxNS
         public virtual void JScriptSyntaxHighlight(Range range)
         {
             range.tb.CommentPrefix = "//";
-            range.tb.LeftBracket = '(';
-            range.tb.RightBracket = ')';
-            range.tb.LeftBracket2 = '{';
-            range.tb.RightBracket2 = '}';
+            range.tb.LeftBracket = "(";
+            range.tb.RightBracket = ")";
+            range.tb.LeftBracket2 = "{";
+            range.tb.RightBracket2 = "}";
             range.tb.BracketsHighlightStrategy = BracketsHighlightStrategy.Strategy2;
 
             range.tb.AutoIndentCharsPatterns
@@ -1240,10 +1240,10 @@ namespace FastColoredTextBoxNS
         public virtual void LuaSyntaxHighlight(Range range)
         {
             range.tb.CommentPrefix = "--";
-            range.tb.LeftBracket = '(';
-            range.tb.RightBracket = ')';
-            range.tb.LeftBracket2 = '{';
-            range.tb.RightBracket2 = '}';
+            range.tb.LeftBracket = "(";
+            range.tb.RightBracket = ")";
+            range.tb.LeftBracket2 = "{";
+            range.tb.RightBracket2 = "}";
             range.tb.BracketsHighlightStrategy = BracketsHighlightStrategy.Strategy2;
 
             range.tb.AutoIndentCharsPatterns
@@ -1315,10 +1315,10 @@ namespace FastColoredTextBoxNS
         /// <param name="range"></param>
         public virtual void JSONSyntaxHighlight(Range range)
         {
-            range.tb.LeftBracket = '[';
-            range.tb.RightBracket = ']';
-            range.tb.LeftBracket2 = '{';
-            range.tb.RightBracket2 = '}';
+            range.tb.LeftBracket = "[";
+            range.tb.RightBracket = "]";
+            range.tb.LeftBracket2 = "{";
+            range.tb.RightBracket2 = "}";
             range.tb.BracketsHighlightStrategy = BracketsHighlightStrategy.Strategy2;
 
             range.tb.AutoIndentCharsPatterns

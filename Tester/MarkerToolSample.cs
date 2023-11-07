@@ -30,7 +30,7 @@ namespace Tester
         private void fctb_SelectionChangedDelayed(object sender, EventArgs e)
         {
             //here we draw shortcut for selection area
-            Range selection = fctb.Selection;
+            FastColoredTextBoxNS.Range selection = fctb.Selection;
             //clear previous shortcuts
             fctb.VisibleRange.ClearStyle(shortCutStyle);
             //create shortcuts

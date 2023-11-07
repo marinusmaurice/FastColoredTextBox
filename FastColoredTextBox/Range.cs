@@ -3,6 +3,7 @@ using System.Text;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace FastColoredTextBoxNS
 {
@@ -296,8 +297,13 @@ namespace FastColoredTextBoxNS
                     int toX = y == toLine ? Math.Min(toChar - 1, tb[y].Count - 1) : tb[y].Count - 1;
                     for (int x = fromX; x <= toX; x++)
                     {
-                        sb.Append(tb[y][x].c);
-                        charIndexToPlace.Add(new Place(x, y));
+                        for (int z = 0; z < tb[y][x].c.Length; z++)
+                        {
+                            sb.Append(tb[y][x].c[z]);
+                            charIndexToPlace.Add(new Place(x, y));
+                        }
+
+                       
                     }
                     if (y != toLine && fromLine != toLine)
                         foreach (char c in Environment.NewLine)
@@ -318,12 +324,12 @@ namespace FastColoredTextBoxNS
         /// <summary>
         /// Returns first char after Start place
         /// </summary>
-        public char CharAfterStart
+        public string CharAfterStart
         {
             get
             {
                 if (Start.iChar >= tb[Start.iLine].Count)
-                    return '\n';
+                    return "\n";
                 return tb[Start.iLine][Start.iChar].c;
             }
         }
@@ -331,14 +337,14 @@ namespace FastColoredTextBoxNS
         /// <summary>
         /// Returns first char before Start place
         /// </summary>
-        public char CharBeforeStart
+        public string CharBeforeStart
         {
             get
             {
                 if (Start.iChar > tb[Start.iLine].Count)
-                    return '\n';
+                    return "\n";
                 if (Start.iChar <= 0)
-                    return '\n';
+                    return "\n";
                 return tb[Start.iLine][Start.iChar - 1].c;
             }
         }
@@ -900,6 +906,7 @@ namespace FastColoredTextBoxNS
                 Group group = m.Groups["range"];
                 if (!group.Success)
                     group = m.Groups[0];
+ 
                 //
                 r.Start = charIndexToPlace[group.Index];
                 r.End = charIndexToPlace[group.Index + group.Length];
@@ -1218,7 +1225,7 @@ namespace FastColoredTextBoxNS
             //go left, check style
             while (r.GoLeftThroughFolded())
             {
-                if (!allowLineBreaks && r.CharAfterStart == '\n')
+                if (!allowLineBreaks && r.CharAfterStart == "\n")
                     break;
                 if (r.Start.iChar < tb.GetLineLength(r.Start.iLine))
                     if ((tb[r.Start].style & mask) == 0)
@@ -1233,7 +1240,7 @@ namespace FastColoredTextBoxNS
             //go right, check style
             do
             {
-                if (!allowLineBreaks && r.CharAfterStart == '\n')
+                if (!allowLineBreaks && r.CharAfterStart == "\n")
                     break;
                 if (r.Start.iChar < tb.GetLineLength(r.Start.iLine))
                     if ((tb[r.Start].style & mask) == 0)
@@ -1277,14 +1284,14 @@ namespace FastColoredTextBoxNS
             return new Range(tb, startFragment, endFragment);
         }
 
-        bool IsIdentifierChar(char c)
+        bool IsIdentifierChar(string c)
         {
-            return char.IsLetterOrDigit(c) || c == '_';
+            return c.IsLetterOrDigit() || c == "_";
         }
 
-        bool IsSpaceChar(char c)
+        bool IsSpaceChar(string c)
         {
-            return c == ' ' || c == '\t';
+            return c == " " || c == "\t";
         }
 
         public void GoWordLeft(bool shift)
@@ -1310,7 +1317,7 @@ namespace FastColoredTextBoxNS
                 wasIdentifier = true;
                 range.GoLeft(shift);
             }
-            if (!wasIdentifier && (!wasSpace || range.CharBeforeStart != '\n'))
+            if (!wasIdentifier && (!wasSpace || range.CharBeforeStart != "\n"))
                 range.GoLeft(shift);
             this.Start = range.Start;
             this.End = range.End;
@@ -1334,7 +1341,7 @@ namespace FastColoredTextBoxNS
             bool wasNewLine = false;
 
 
-            if (range.CharAfterStart == '\n')
+            if (range.CharAfterStart == "\n")
             {
                 range.GoRight(shift);
                 wasNewLine = true;

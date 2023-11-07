@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using FastColoredTextBoxNS;
 using System.Diagnostics;
-using System.Text.RegularExpressions;
+using System.Text.RegularExpressions1;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
@@ -66,23 +66,23 @@ namespace Tester
 
         private void CSharpSyntaxHighlight(TextChangedEventArgs e)
         {
-            fctb.LeftBracket = '(';
-            fctb.RightBracket = ')';
-            fctb.LeftBracket2 = '\x0';
-            fctb.RightBracket2 = '\x0';
+            fctb.LeftBracket = "(";
+            fctb.RightBracket = ")";
+            fctb.LeftBracket2 = "\x0";
+            fctb.RightBracket2 = "\x0";
             //clear style of changed range
             e.ChangedRange.ClearStyle(BlueStyle, BoldStyle, GrayStyle, MagentaStyle, GreenStyle, BrownStyle);
 
             //string highlighting
             e.ChangedRange.SetStyle(BrownStyle, @"""""|@""""|''|@"".*?""|(?<!@)(?<range>"".*?[^\\]"")|'.*?[^\\]'");
             //comment highlighting
-            e.ChangedRange.SetStyle(GreenStyle, @"//.*$", RegexOptions.Multiline);
-            e.ChangedRange.SetStyle(GreenStyle, @"(/\*.*?\*/)|(/\*.*)", RegexOptions.Singleline);
-            e.ChangedRange.SetStyle(GreenStyle, @"(/\*.*?\*/)|(.*\*/)", RegexOptions.Singleline|RegexOptions.RightToLeft);
+            e.ChangedRange.SetStyle(GreenStyle, @"//.*$", System.Text.RegularExpressions.RegexOptions.Multiline);
+            e.ChangedRange.SetStyle(GreenStyle, @"(/\*.*?\*/)|(/\*.*)", System.Text.RegularExpressions.RegexOptions.Singleline);
+            e.ChangedRange.SetStyle(GreenStyle, @"(/\*.*?\*/)|(.*\*/)", System.Text.RegularExpressions.RegexOptions.Singleline| System.Text.RegularExpressions.RegexOptions.RightToLeft);
             //number highlighting
             e.ChangedRange.SetStyle(MagentaStyle, @"\b\d+[\.]?\d*([eE]\-?\d+)?[lLdDfF]?\b|\b0x[a-fA-F\d]+\b");
             //attribute highlighting
-            e.ChangedRange.SetStyle(GrayStyle, @"^\s*(?<range>\[.+?\])\s*$", RegexOptions.Multiline);
+            e.ChangedRange.SetStyle(GrayStyle, @"^\s*(?<range>\[.+?\])\s*$", System.Text.RegularExpressions.RegexOptions.Multiline);
             //class name highlighting
             e.ChangedRange.SetStyle(BoldStyle, @"\b(class|struct|enum|interface)\s+(?<range>\w+?)\b");
             //keyword highlighting
@@ -244,9 +244,9 @@ namespace Tester
 
         const int maxBracketSearchIterations = 2000;
 
-        void GoLeftBracket(FastColoredTextBox tb, char leftBracket, char rightBracket)
+        void GoLeftBracket(FastColoredTextBox tb, string leftBracket, string rightBracket)
         {
-            Range range = tb.Selection.Clone();//need to clone because we will move caret
+            FastColoredTextBoxNS.Range range = tb.Selection.Clone();//need to clone because we will move caret
             int counter = 0;
             int maxIterations = maxBracketSearchIterations;
             while (range.GoLeftThroughFolded())//move caret left
@@ -267,7 +267,7 @@ namespace Tester
             tb.Invalidate();
         }
 
-        void GoRightBracket(FastColoredTextBox tb, char leftBracket, char rightBracket)
+        void GoRightBracket(FastColoredTextBox tb, string leftBracket, string rightBracket)
         {
             var range = tb.Selection.Clone();//need clone because we will move caret
             int counter = 0;
@@ -294,12 +294,12 @@ namespace Tester
 
         private void goLeftBracketToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GoLeftBracket(fctb, '{', '}');
+            GoLeftBracket(fctb, "{", "}");
         }
 
         private void goRightBracketToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GoRightBracket(fctb, '{', '}');
+            GoRightBracket(fctb, "{", "}");
         }
 
         private void fctb_AutoIndentNeeded(object sender, AutoIndentEventArgs args)

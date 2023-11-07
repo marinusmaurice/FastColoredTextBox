@@ -187,7 +187,7 @@ namespace FastColoredTextBoxNS
             }
             e.Tb.Selection.Start = p1;
             //move caret position right and find char ^
-            while (e.Tb.Selection.CharBeforeStart != '^')
+            while (e.Tb.Selection.CharBeforeStart != "^")
                 if (!e.Tb.Selection.GoRightThroughFolded())
                     break;
             //remove char ^
