@@ -1,3 +1,13 @@
+Changes
+=======
+Correctly reads and displays unicode characters
+
+To be fixed
+===========
+Regular expressions - implementing a custom regex engine as current regex engine doesn't handle unicode characters succinctly
+
+
+
 FastColoredTextBox
 ==================
 
